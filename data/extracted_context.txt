@@ -1,0 +1,70 @@
+Although there already exist several review-related datasets, few works have carefully and
+thoroughly inspected model’s capability as a reviewer, especially the correctness of generated reviews. In this
+paper, we first evaluate GPT-3.5 and GPT-4 (the current top-performing LLM) on 2 types of tasks under different
+settings: the score prediction task and the review generation task. In addition, we propose a dataset containing
+196 review-revision multiple-choice questions (RR-MCQ) with detailed labels from the review-rebuttal forum in
+ICLR-2023. , 2023), but there is still no detailed
+assessment of model’s reviewing ability. On pre-
+vious datasets like review generation ones, de-
+tailed analyses are only possible when manually
+examining the generated text, resulting in huge
+time costs and subjective conclusions. In contrast, our
+RR-MCQ dataset with well-defined categorization
+labels enables comprehensive and satisfactory as-
+sessments. Classification task Besides directly generating
+texts, more specific tasks with clear-cut answers
+are actually more investigated. In this paper, we first evaluate models on both
+types of existing tasks: the generation task and
+the classification task. Specifically, we choose to
+run GPT-3.5 and GPT-4 on the review generation
+task and aspect score prediction task; the result of
+GPT-4 on edit generation is already presented in
+ARIES ( D’Arcy et al. They first create 13 short papers and
+then design test examples based on these brand-
+new papers to avoid the data leakage problem. Very recently, Liang et al. 3. See Figure 1 for a concrete example. Substance 3. Originality 7. As such, while I find 
+the graphics inspired ques-
+tions the paper is investigating 
+interesting, I don't think it is 
+clear that this work introduces 
+useful machinery for modeling 
+more general videos. Title: Perception Updating 
+Networks: On Architectural 
+Constraints For Interpretable 
+Video Generative Models
+Abstract: We investigate a 
+neural network architecture and 
+statistical framework that... LLM predicts well the final [recommendation]
+score, but not scores of [comparison], [im-
+pact], and [substance] that are knowledge-
+and logic-demanding. GPT-3.5 gains espe-
+cially high correlations in predicting [Recommen-
+dation] scores under both settings (Pearson corre-
+lation 0.826 & 0.283, see detailed results for each
+aspect in T able2 column 1). However, it struggles
+in judging [Comparison] (column 4) whether the pa-
+per presents enough meaningful comparisons with
+related work, [Substance] (column 2) whether it
+contains lots of ideas and results, and [Impact] (col-
+umn 8) whether it is influential and helpful to this
+field. Besides, we focus more on
+the evaluation method for model-generated review
+texts. (1) Aspect coverage, thanks to the aspect
+annotations in ASAP dataset. , 2020), and using GPT-4 to score the
+similarity as in the evaluation of abstractive sum-
+maries (Shen et al., 2023) and of translation quality
+(Kocmi and Federmann , 2023). Here are some implementation details. The aspect recall value in T able 5 (column 1 as-
+pect) also indicates that both GPT-3.5 and GPT-4
+have very different comment preferences from hu-
+mans. Task 3: Review-Revision
+Multiple-Choice Questions
+The experiments of aspect score prediction and
+review generation above do give us an idea of
+model’s reviewing ability. , 2023). An example of the RR-
+MCQ is presented in Figure 4. The micro accuracy is calculated by consid-
+ering each question option as an individual exam-
+ple so that the MCQ task becomes a binary de-
+cision task of determining True/False for each op-
+tion. The macro accuracy is more strict: only when
+all answers are correct, the question is marked as
+correct (note that the number of correct options is
+undetermined, between one and four).
