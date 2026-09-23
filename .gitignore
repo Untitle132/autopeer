@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Autopeer 專案專用：忽略資料集與壓縮檔
+data/
+*.zip
