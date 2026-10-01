@@ -1,3 +1,5 @@
+import torch
+
 import os
 import numpy as np
 from pypdf import PdfReader
