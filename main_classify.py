@@ -8,6 +8,18 @@ from src.extractor import ScientificPaperExtractor
 from src.classifier import ScientificPaperClassifier
 from src.llm_reviewer import LLMReviewer
 
+# 💡 自動適配器：動態尋找你在 extractor.py 中真正命名的函式，避免 AttributeError
+def extract_auto(extractor_obj, text):
+    if hasattr(extractor_obj, 'extract_features'):
+        return extractor_obj.extract_features(text)
+    elif hasattr(extractor_obj, 'extract'):
+        return extractor_obj.extract(text)
+    elif hasattr(extractor_obj, 'process_paper'):
+        return extractor_obj.process_paper(text)
+    else:
+        # 如果都不是，預設嘗試直接呼叫物件
+        return extractor_obj(text)
+
 def main():
     print("🚀 啟動 AutoPeer 雙軌制自動審查系統...")
     
@@ -31,7 +43,8 @@ def main():
         if (i + 1) % 5 == 0:
             print(f"   ... 已處理 {i + 1}/{len(train_papers)} 篇")
         
-        vec, _, _ = extractor.extract_features(paper["text"])
+        # 透過動態適配器安全呼叫
+        vec, _, _ = extract_auto(extractor, paper["text"])
         X_train.append(vec)
         y_train.append(paper["label"])
         
@@ -52,7 +65,7 @@ def main():
         return
 
     # 抽取目標論文的特徵與關鍵句
-    test_vector, _, top_sentences = extractor.extract_features(test_text)
+    test_vector, _, top_sentences = extract_auto(extractor, test_text)
     
     # ✨ 強制將 1D 陣列轉為 1 列、773 欄的 2D 矩陣
     test_vector = np.array(test_vector).reshape(1, -1)
