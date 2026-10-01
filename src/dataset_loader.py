@@ -24,24 +24,30 @@ class PeerReadLoader:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     
-                    # 嘗試從 metadata 中取得 Accept/Reject 標籤
-                    decision = data.get("metadata", {}).get("decision")
+                    # 💡 空值防護 1：確保 metadata 即使為 null 也會變成空字典
+                    metadata = data.get("metadata") or {}
                     
-                    # 💡 若在 parsed_pdfs 找不到真實標籤，給予交替的測試標籤以打通訓練管線
+                    # 嘗試取得標籤
+                    decision = metadata.get("decision")
                     if not decision:
                         label = 1 if len(papers) % 2 == 0 else 0
                     else:
                         label = 1 if "Accept" in decision else 0
                     
-                    # 提取論文內容 (依據 Science Parse 格式)
-                    title = data.get("metadata", {}).get("title", "")
-                    abstract_text = data.get("metadata", {}).get("abstractText", "")
+                    # 💡 空值防護 2：確保 title 與 abstract 即使為 null 也會變為空字串
+                    title = metadata.get("title") or ""
+                    abstract_text = metadata.get("abstractText") or ""
                     
-                    # 組合 text 欄位，處理 Science Parse 的 sections 結構
-                    sections = data.get("metadata", {}).get("sections", [])
-                    body_text = " ".join([sec.get("text", "") for sec in sections if sec.get("text")])
+                    # 💡 空值防護 3：確保 sections 即使為 null 也會變成空列表，避免迴圈報錯
+                    sections = metadata.get("sections") or []
                     
-                    # 組合完整文本
+                    # 組合 text 欄位，同時確保 sec 本身是字典且擁有 text 欄位
+                    body_text = " ".join([
+                        sec.get("text", "") 
+                        for sec in sections 
+                        if isinstance(sec, dict) and sec.get("text")
+                    ])
+                    
                     full_text = f"{title}\n{abstract_text}\n{body_text}"
                     
                     papers.append({
