@@ -2,7 +2,7 @@ import os
 import google.generativeai as genai
 
 class LLMReviewer:
-    def __init__(self, api_key=None, model_name="gemini-2.0-flash"):
+    def __init__(self, api_key=None, model_name="models/gemini-3.8-flash"):
         # 優先使用傳入的 API Key，若無則讀取系統環境變數 GEMINI_API_KEY
         self.api_key = api_key or os.environ.get("GEMINI_API_KEY")
         if not self.api_key:
