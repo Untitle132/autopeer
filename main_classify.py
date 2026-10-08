@@ -9,8 +9,24 @@ from src.classifier import ScientificPaperClassifier
 from src.llm_reviewer import LLMReviewer
 
 # 💡 自動適配器：動態尋找你在 extractor.py 中真正命名的函式，避免 AttributeError
+# 💡 升級版適配器：動態偵測回傳數量，並自動補齊 Gemini 需要的文本
 def extract_auto(extractor_obj, text):
-    return extractor_obj._extract_statistical_features(text)
+    # 呼叫你的特徵萃取函數
+    result = extractor_obj._extract_statistical_features(text)
+    
+    # 確保不管你的函數回傳幾個值，我們都強制定型為 3 個變數輸出
+    if isinstance(result, tuple):
+        if len(result) >= 3:
+            return result[0], result[1], result[2]
+        elif len(result) == 2:
+            return result[0], None, result[1]
+        else:
+            return result[0], None, text[:1000]
+    else:
+        # 如果只回傳 1 個值 (純特徵向量)
+        # 我們自動擷取文章的前 1000 字作為備用關鍵句，確保 Stage 2 的 Gemini 有文本可以審查
+        fallback_sentences = text[:1000] if isinstance(text, str) else "無法取得內文"
+        return result, None, fallback_sentences
 
 def main():
     print("🚀 啟動 AutoPeer 雙軌制自動審查系統...")
