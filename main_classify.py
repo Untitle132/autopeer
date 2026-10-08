@@ -83,8 +83,8 @@ def main():
         print("========================================================\n")
         
         print("⏳ 正在呼叫 Gemini 生成結構化深度評論...")
-        # 💡 修正點：將 generate_review 更改為正確的 generate_deep_review
-        review_result = llm_reviewer.generate_deep_review(top_sentences)
+        # 💡 修正點：同時傳入完整文本 (test_text) 與關鍵句 (top_sentences)
+        review_result = llm_reviewer.generate_deep_review(test_text, top_sentences)
         
         print("\n================ 🧠 Stage 2: Gemini 審查報告 ================")
         print(review_result)
