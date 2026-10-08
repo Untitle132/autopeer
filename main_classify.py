@@ -39,7 +39,6 @@ def main():
     train_papers = papers[:30] 
     print(f"\n⏳ 正在使用 SciBERT 抽取 {len(train_papers)} 篇訓練論文的特徵...")
     
-    # ⚠️ 這裡的空列表是用來收集資料的，絕對不能被刪掉
     X_train = []
     y_train = []
     
@@ -84,7 +83,8 @@ def main():
         print("========================================================\n")
         
         print("⏳ 正在呼叫 Gemini 生成結構化深度評論...")
-        review_result = llm_reviewer.generate_review(top_sentences)
+        # 💡 修正點：將 generate_review 更改為正確的 generate_deep_review
+        review_result = llm_reviewer.generate_deep_review(top_sentences)
         
         print("\n================ 🧠 Stage 2: Gemini 審查報告 ================")
         print(review_result)
