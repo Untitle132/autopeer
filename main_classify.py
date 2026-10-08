@@ -45,8 +45,9 @@ def main():
     train_papers = papers[:30] 
     print(f"\n⏳ 正在使用 SciBERT 抽取 {len(train_papers)} 篇訓練論文的 773 維特徵...")
     
-    X_train = []
-    y_train = []
+    # ✨ 降維修復：強制將 3D 陣列 (例如 30, 1, 773) 壓扁為 2D 表格 (30, 773)
+    X_train = np.array(X_train).reshape(len(train_papers), -1)
+    y_train = np.array(y_train)
     for i, paper in enumerate(train_papers):
         if (i + 1) % 5 == 0:
             print(f"   ... 已處理 {i + 1}/{len(train_papers)} 篇")
