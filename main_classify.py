@@ -10,15 +10,7 @@ from src.llm_reviewer import LLMReviewer
 
 # 💡 自動適配器：動態尋找你在 extractor.py 中真正命名的函式，避免 AttributeError
 def extract_auto(extractor_obj, text):
-    if hasattr(extractor_obj, 'extract_features'):
-        return extractor_obj.extract_features(text)
-    elif hasattr(extractor_obj, 'extract'):
-        return extractor_obj.extract(text)
-    elif hasattr(extractor_obj, 'process_paper'):
-        return extractor_obj.process_paper(text)
-    else:
-        # 如果都不是，預設嘗試直接呼叫物件
-        return extractor_obj(text)
+    return extractor_obj._extract_statistical_features(text)
 
 def main():
     print("🚀 啟動 AutoPeer 雙軌制自動審查系統...")
