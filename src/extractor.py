@@ -18,6 +18,14 @@ class ScientificPaperExtractor:
 
     def _get_scibert_embedding(self, text):
         """將單一文本轉換為 768 維的 SciBERT 密集向量"""
+        # 💡 防呆機制：嚴格檢查 text 必須是字串，且不得為空
+        if not isinstance(text, str):
+            text = str(text)  # 強制轉為字串
+            
+        if not text.strip():
+            # 如果是空字串，直接回傳 768 維的 0 向量，避免 Tokenizer 報錯
+            return np.zeros((1, 768), dtype=np.float32)
+
         inputs = self.tokenizer(
             text, 
             return_tensors='pt', 
