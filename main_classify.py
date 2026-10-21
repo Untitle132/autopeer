@@ -102,7 +102,8 @@ def main():
         print("========================================================\n")
         
         print("⏳ 正在呼叫 Gemini 生成結構化深度評論...")
-        review_result = llm_reviewer.generate_review(top_sentences)
+        # 💡 修正點：將 generate_review 改為 generate_deep_review，並同時傳入 test_text 與 top_sentences
+        review_result = llm_reviewer.generate_deep_review(test_text, top_sentences)
         
         print("\n================ 🧠 Stage 2: Gemini 審查報告 ================")
         print(review_result)
