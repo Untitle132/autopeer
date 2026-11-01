@@ -219,3 +219,6 @@ __marimo__/
 # Autopeer 專案專用：忽略資料集與壓縮檔
 data/
 *.zip
+# 忽略已訓練的機器學習模型與權重檔
+models/
+*.pkl
